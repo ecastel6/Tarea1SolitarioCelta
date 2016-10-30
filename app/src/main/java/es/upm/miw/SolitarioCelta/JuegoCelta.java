@@ -1,14 +1,49 @@
 package es.upm.miw.SolitarioCelta;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import es.upm.miw.SolitarioCelta.models.AlmacenResultados;
+
 class JuegoCelta {
     public static final int TAMANIO = 7;
     public static final int HUECO = 0;
     public static final int FICHA = 1;
     private static final int NUM_MOVIMIENTOS = 4;
     private int[][] tablero;
+    final String LOG_TAG="MIW16";
+    private static final String PARTIDADB = "celta.db";
+    File file;
+    AlmacenResultados db;
+
+    /**
+     * Constructor
+     * Inicializa el tablero y el estado del juego
+     */
+    public JuegoCelta(Context context) {
+        numFichas = 32;
+        tablero = new int[TAMANIO][TAMANIO];
+        for (int i = 0; i < TAMANIO; i++)
+            for (int j = 0; j < TAMANIO; j++)
+                tablero[i][j] = TABLERO_INICIAL[i][j];
+        tablero[TAMANIO / 2][TAMANIO / 2] = HUECO;   // hueco en posición central
+
+        estadoJuego = Estado.ESTADO_SELECCION_FICHA;
+
+        file = new File(context.getFilesDir(),PARTIDADB);
+        db = new AlmacenResultados(context);
+        Long numFilas = db.count();
+
+    }
 
     private static final int[][] TABLERO_INICIAL = {
             {HUECO, HUECO, FICHA, FICHA, FICHA, HUECO, HUECO},
+
             {HUECO, HUECO, FICHA, FICHA, FICHA, HUECO, HUECO},
             {FICHA, FICHA, FICHA, FICHA, FICHA, FICHA, FICHA},
             {FICHA, FICHA, FICHA, FICHA, FICHA, FICHA, FICHA},
@@ -32,20 +67,7 @@ class JuegoCelta {
 
     private Estado estadoJuego;
 
-    /**
-     * Constructor
-     * Inicializa el tablero y el estado del juego
-     */
-    public JuegoCelta() {
-        numFichas = 32;
-        tablero = new int[TAMANIO][TAMANIO];
-        for (int i = 0; i < TAMANIO; i++)
-            for (int j = 0; j < TAMANIO; j++)
-                tablero[i][j] = TABLERO_INICIAL[i][j];
-        tablero[TAMANIO / 2][TAMANIO / 2] = HUECO;   // hueco en posición central
 
-        estadoJuego = Estado.ESTADO_SELECCION_FICHA;
-    }
 
     /**
      * Devuelve el contenido de una posición del tablero
@@ -179,5 +201,32 @@ class JuegoCelta {
         tablero[TAMANIO / 2][TAMANIO / 2] = HUECO;   // hueco en posición central
 
         estadoJuego = Estado.ESTADO_SELECCION_FICHA;
+    }
+
+    public void guardarPartida (){
+        String partidaSalvada = this.serializaTablero();
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(partidaSalvada.getBytes());
+            Log.i(LOG_TAG,"Generado archivo " + PARTIDADB);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void recuperarPartida(){
+        int length = (int) file.length();
+        byte[] bytes = new byte[length];
+
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            inputStream.read(bytes);
+            Log.i(LOG_TAG,"Recuperado archivo " + PARTIDADB);
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String partidaRecuperada = new String(bytes);
+        this.deserializaTablero(partidaRecuperada);
     }
 }
