@@ -1,7 +1,7 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="File '/home/ecastel/AndroidStudioProjects/Tarea1_SolitarioCelta/app/src/main/java/es/upm/miw/SolitarioCelta/PideNombre.java'" />
-    <option name="defaultScopeName" value="File '/home/ecastel/AndroidStudioProjects/Tarea1_SolitarioCelta/app/src/main/java/es/upm/miw/SolitarioCelta/PideNombre.java'" />
-    <option name="SEARCH_SCOPE" value="File '/home/ecastel/AndroidStudioProjects/Tarea1_SolitarioCelta/app/src/main/java/es/upm/miw/SolitarioCelta/PideNombre.java'" />
+    <option name="customScope" value="File '/home/ecastel/AndroidStudioProjects/Tarea1_SolitarioCelta/app/src/main/java/es/upm/miw/SolitarioCelta/models/AlmacenResultados.java'" />
+    <option name="defaultScopeName" value="File '/home/ecastel/AndroidStudioProjects/Tarea1_SolitarioCelta/app/src/main/java/es/upm/miw/SolitarioCelta/models/AlmacenResultados.java'" />
+    <option name="SEARCH_SCOPE" value="File '/home/ecastel/AndroidStudioProjects/Tarea1_SolitarioCelta/app/src/main/java/es/upm/miw/SolitarioCelta/models/AlmacenResultados.java'" />
   </component>
 </application>
